@@ -1,0 +1,22 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-4.0.xsd ">
+
+    <aop:config>
+        <aop:aspect id="myAspect" ref="myAspect">
+            <aop:pointcut id="selectAll"
+                          expression="execution(* org.encos.aoplay.controller.MainController.hello(..))"/>
+            <aop:before pointcut-ref="selectAll" method="beforeRequest" arg-names="joinPoint" />
+            <!--<aop:after pointcut-ref="selectAll" method="after"/>-->
+            <aop:after-returning pointcut-ref="selectAll" returning="retVal" arg-names="joinPoint,retVal" method="afterReturning"/>
+            <!--<aop:after-throwing pointcut-ref="selectAll" throwing="ex" method="afterThrowing"/>-->
+        </aop:aspect>
+    </aop:config>
+
+    <bean id="myAspect" class="org.encos.aoplay.AoplayAspect"/>
+
+</beans>
